@@ -1,15 +1,16 @@
 import os
 import re
 
-def batch_rename_files(folder_path, chars_to_remove, dry_run=True, process_subfolders=True):
+def batch_rename_files(folder_path, chars_to_remove, dry_run=True, process_subfolders=True, use_regex=False):
     """
     批量重命名文件夹中的文件，删除文件名中的特定字符，可选择是否递归处理子文件夹
     
     参数:
     folder_path (str): 文件夹路径
-    chars_to_remove (str or list): 需要删除的字符或字符列表
+    chars_to_remove (str or list): 需要删除的字符、字符列表或正则表达式
     dry_run (bool): 如果为True，只打印将要进行的更改而不实际执行
     process_subfolders (bool): 是否处理子文件夹中的文件
+    use_regex (bool): 是否将chars_to_remove作为正则表达式处理
     
     返回:
     dict: 包含原文件名和新文件名的映射
@@ -17,12 +18,21 @@ def batch_rename_files(folder_path, chars_to_remove, dry_run=True, process_subfo
     if not os.path.isdir(folder_path):
         raise ValueError(f"提供的路径 '{folder_path}' 不是一个有效的文件夹")
     
-    # 如果传入的是字符串，将其转换为列表
-    if isinstance(chars_to_remove, str):
-        chars_to_remove = list(chars_to_remove)
-    
-    # 创建正则表达式模式，用于删除指定字符
-    pattern = '[' + re.escape(''.join(chars_to_remove)) + ']'
+    # 根据use_regex参数决定如何处理chars_to_remove
+    if use_regex:
+        # 直接使用提供的正则表达式
+        if isinstance(chars_to_remove, list):
+            # 如果提供了多个正则表达式，将它们用|连接起来
+            pattern = '|'.join(chars_to_remove)
+        else:
+            pattern = chars_to_remove
+    else:
+        # 如果传入的是字符串，将其转换为列表
+        if isinstance(chars_to_remove, str):
+            chars_to_remove = list(chars_to_remove)
+        
+        # 创建正则表达式模式，用于删除指定字符
+        pattern = '[' + re.escape(''.join(chars_to_remove)) + ']'
     
     renamed_files = {}
     
@@ -78,10 +88,27 @@ def batch_rename_files(folder_path, chars_to_remove, dry_run=True, process_subfo
 
 # 使用示例
 if __name__ == "__main__":
-    folder_path = "/Users/shawnxiang/Downloads/157_web3"  # 替换为您的文件夹路径
-    chars_to_remove = [' ', '【萌萌家】']
-    # 先进行预览，包括子文件夹
-    # batch_rename_files(folder_path, chars_to_remove, dry_run=True, process_subfolders=True)
+    folder_path = "/Users/shawnxiang/Desktop/hanlaoshi"  # 替换为您的文件夹路径
+    
+    # filename = '30、俄罗斯债务危机qq3398882712@outlook.com.pdf'
+
+    # pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    # new_filename = re.sub(pattern, '', filename)
+    # print(new_filename)
+    # 示例1: 删除空格字符
+
+    chars_to_remove = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+
+    batch_rename_files(folder_path, chars_to_remove, dry_run=False, process_subfolders=True, use_regex=True)
+    
+    # 示例2: 使用正则表达式删除所有数字
+    # batch_rename_files(folder_path, r'\d', dry_run=True, process_subfolders=True, use_regex=True)
+    
+    # 示例3: 使用复杂的正则表达式，例如删除括号及其内容
+    # batch_rename_files(folder_path, r'\([^)]*\)', dry_run=True, process_subfolders=True, use_regex=True)
+    
+    # 示例4: 使用多个正则表达式
+    # batch_rename_files(folder_path, [r'\d+', r'[-_]+'], dry_run=True, process_subfolders=True, use_regex=True)
     
     # 确认后执行实际重命名
-    batch_rename_files(folder_path, chars_to_remove, dry_run=False, process_subfolders=True)
+    # batch_rename_files(folder_path, chars_to_remove, dry_run=False, process_subfolders=True)
