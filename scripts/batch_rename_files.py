@@ -88,7 +88,7 @@ def batch_rename_files(folder_path, chars_to_remove, dry_run=True, process_subfo
 
 # 使用示例
 if __name__ == "__main__":
-    folder_path = "/Users/shawnxiang/Desktop/hanlaoshi"  # 替换为您的文件夹路径
+    folder_path = "/Users/shawnxiang/XZiyi/Learning/Computer/MachineLearning"  # 替换为您的文件夹路径
     
     # filename = '30、俄罗斯债务危机qq3398882712@outlook.com.pdf'
 
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # print(new_filename)
     # 示例1: 删除空格字符
 
-    chars_to_remove = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    chars_to_remove = r'\[www\.[a-zA-Z0-9.-]+\.com\]'
 
     batch_rename_files(folder_path, chars_to_remove, dry_run=False, process_subfolders=True, use_regex=True)
     
