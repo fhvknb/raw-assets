@@ -1,5 +1,6 @@
 {
   "groups": [
+    "gt",
     "G_DEFAULT",
     "G_1024_A",
     "G_1024_S",
