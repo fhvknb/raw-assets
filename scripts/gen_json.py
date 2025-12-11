@@ -40,7 +40,7 @@ if __name__ == "__main__":
     files_dir = os.path.join(root_dir,  data_name)
     data_dir = os.path.join(root_dir,  "json", data_name + '.json')
     
-    # print("文件路径:", files_dir)
+    print("文件路径:", files_dir)
     
     gen_json(file_name(files_dir))
     
