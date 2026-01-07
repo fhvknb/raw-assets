@@ -81,7 +81,7 @@ def main(argv: list[str] | None = None) -> int:
     if len(requested) == 1 and requested[0].lower() == 'all':
         # all immediate subdirectories of repo_root (exclude 'json' and 'scripts')
         for p in sorted(repo_root.iterdir()):
-            if p.is_dir() and p.name not in ('json', 'scripts'):
+            if p.is_dir() and p.name not in ('json', 'scripts', '.trae', '.git'):
                 dirs_to_process.append(p)
     else:
         for name in requested:
