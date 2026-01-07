@@ -56,7 +56,7 @@ def gather_image_files(dirpath: Path, allowed_exts: Set[str]) -> List[str]:
 
 
 def write_json(out_file: Path, paths: Iterable[str]) -> None:
-    data = [{"imgSrc": p} for p in paths]
+    data = [{"imgSrc": os.path.basename(p)} for p in paths]
     out_file.parent.mkdir(parents=True, exist_ok=True)
     with out_file.open('w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
