@@ -3,6 +3,7 @@
 
 import os
 import sys
+import time
 
 def rename_images(directory):
     # 获取目录中的所有文件
@@ -18,7 +19,7 @@ def rename_images(directory):
         file_extension = os.path.splitext(image)[1]
         
         # 创建新的文件名
-        new_name = f"image_{(index + 1):05}{file_extension}"
+        new_name = f"image_{int(time.time())}_{(index + 1):03d}{file_extension}"
         
         # 获取完整的旧文件路径和新文件路径
         old_file_path = os.path.join(directory, image)
